@@ -4,7 +4,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { CoinStackParams } from "../App";
 import hmacSHA256 from "crypto-js/hmac-sha256";
 import DetailsNav from "../components/DetailsNav";
-import { Black, Bold, ExtraBold, Regular } from "../components/Font";
+import { Black, Bold, ExtraBold, Regular, SemiBold } from "../components/Font";
 import { GRAY, GREEN, RED } from "../utils/colors";
 import Chart from "../components/Chart";
 import axios from "axios";
@@ -42,6 +42,14 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
           rank: Number(data.market_cap_rank) ?? route.params.coin.rank,
           logo: data.image.large ?? route.params.coin.logo,
           price_change: data.market_data.price_change_24h,
+          high: data.market_data.high_24h.usd,
+          low: data.market_data.low_24h.usd,
+          market_cap: data.market_data.market_cap.usd,
+          market_cap_change: data.market_data.market_cap_change_24h,
+          volume: data.market_data.total_volume.usd,
+          circulating_supply: data.market_data.circulating_supply,
+          max_supply: data.market_data.max_supply,
+          total_supply: data.market_data.total_supply,
         });
       } catch (err) {
         setCoin({
@@ -100,12 +108,57 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
           }}
         />
       </View>
-      <View style={{ flex: 1, marginTop: 10 }}>
+      <View style={{ marginTop: 10 }}>
         {error ? (
           <Bold style={{ fontSize: 24 }}>{error}</Bold>
         ) : (
           <Chart id={coin_name} />
         )}
+      </View>
+      <View style={styles.detailsContainer}>
+        <View style={styles.comp}>
+          <View style={styles.flex}>
+            <Bold style={styles.title}>High</Bold>
+            <Regular style={styles.value}>{coin?.high}</Regular>
+          </View>
+          <View style={styles.flex}>
+            <Bold style={styles.title}>Low</Bold>
+            <Regular style={styles.value}>{coin?.low}</Regular>
+          </View>
+        </View>
+        <View style={styles.separator} />
+        <View style={styles.comp}>
+          <View style={styles.flex}>
+            <Bold style={styles.title}>Market Cap</Bold>
+            <Regular style={styles.value}>{coin?.market_cap}</Regular>
+          </View>
+          <View style={styles.flex}>
+            <Bold style={styles.title}>Market Cap Change</Bold>
+            <Regular style={styles.value}>{coin?.market_cap_change}</Regular>
+          </View>
+        </View>
+        <View style={styles.separator} />
+        <View style={styles.comp}>
+          <View style={styles.flex}>
+            <Bold style={styles.title}>Volume</Bold>
+            <Regular style={styles.value}>{coin?.volume}</Regular>
+          </View>
+          <View style={styles.flex}>
+            <Bold style={styles.title}>Circulating Supply</Bold>
+            <Regular style={styles.value}>{coin?.circulating_supply}</Regular>
+          </View>
+        </View>
+        <View style={styles.separator} />
+        <View style={styles.comp}>
+          <View style={styles.flex}>
+            <Bold style={styles.title}>Total Supply</Bold>
+            <Regular style={styles.value}>{coin?.total_supply}</Regular>
+          </View>
+          <View style={styles.flex}>
+            <Bold style={styles.title}>Max Supply</Bold>
+            <Regular style={styles.value}>{coin?.max_supply}</Regular>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -127,6 +180,32 @@ const styles = StyleSheet.create({
     backgroundColor: GRAY,
     marginLeft: 10,
     borderRadius: 6,
+  },
+  detailsContainer: {
+    marginTop: 30,
+    borderWidth: 1,
+    borderRadius: 20,
+    borderColor: GRAY,
+    paddingVertical: 14,
+  },
+  comp: {
+    flexDirection: "row",
+    paddingHorizontal: 14,
+  },
+  flex: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 16,
+  },
+  value: {
+    fontSize: 16,
+  },
+  separator: {
+    height: 2,
+    marginVertical: 10,
+    backgroundColor: GRAY,
+    borderRadius: 10,
   },
 });
 

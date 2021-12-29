@@ -85,7 +85,7 @@ const FeaturedItem: React.FC<Props> = ({ item, size, index }) => {
 const styles = StyleSheet.create({
   card: {
     height: 140,
-    width: 240,
+    width: 250,
     backgroundColor: GRAY,
     elevation: 2,
     borderRadius: 10,

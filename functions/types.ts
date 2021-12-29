@@ -8,6 +8,12 @@ export type Coin = {
   price_change?: string;
   high?: string;
   low?: string;
+  volume?: string;
+  market_cap?: string;
+  market_cap_change?: string;
+  circulating_supply?: string;
+  total_supply?: string;
+  max_supply?: string;
 };
 
 export type Result = {
