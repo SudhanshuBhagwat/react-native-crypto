@@ -1,12 +1,11 @@
 import { useNavigation } from "@react-navigation/core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   FlatList,
   StyleSheet,
   View,
   Dimensions,
-  Pressable,
   TouchableOpacity,
 } from "react-native";
 import { CoinStackParams } from "../App";
@@ -38,37 +37,6 @@ type Props = {
 const List: React.FC<Props> = ({ url, dataKey }) => {
   const navigate = useNavigation<NativeStackNavigationProp<CoinStackParams>>();
   const list = useData({ url, dataKey });
-  // const [coins, setCoins] = useState<Coin[]>([]);
-
-  // async function getData() {
-  //   const coinData: Map<string, Coin> = new Map();
-  //   const result = await fetch(url);
-  //   const data = await result.json();
-
-  //   data.forEach((d: any) => {
-  //     coinData.set(d.id, {
-  //       id: d.id,
-  //       name: d.name,
-  //       symbol: d.symbol,
-  //       logo: d.image,
-  //       price: d.current_price,
-  //       market_cap_rank: d.market_cap_rank,
-  //       price_change: d.price_change_percentage_1h_in_currency,
-  //     });
-  //   });
-
-  //   return coinData;
-  // }
-
-  // async function collectData() {
-  //   const coinsData: Map<string, Coin> = await getData();
-
-  //   setCoins(Array.from(coinsData.values()));
-  // }
-
-  // useEffect(() => {
-  //   collectData();
-  // }, []);
 
   return (
     <FlatList

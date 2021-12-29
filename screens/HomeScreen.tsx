@@ -1,11 +1,9 @@
 import React from "react";
 import {
-  SafeAreaView,
   View,
   StyleSheet,
   Platform,
   StatusBar,
-  Text,
   ScrollView,
 } from "react-native";
 import { Black } from "../components/Font";

@@ -23,7 +23,6 @@ const FeaturedList: React.FC<Props> = ({
   title,
   queryParams,
 }) => {
-  // const [list, setList] = React.useState<Coin[]>([]);
   const list = useData({
     url,
     dataKey,
@@ -31,33 +30,6 @@ const FeaturedList: React.FC<Props> = ({
   });
   const navigation =
     useNavigation<NativeStackNavigationProp<CoinStackParams>>();
-
-  // async function getData() {
-  //   const result = await fetch(url);
-  //   const data = await result.json();
-  //   const resultData = dataKey ? data[dataKey] : data;
-
-  //   resultData.forEach(async (d: any) => {
-  //     setList((trend) => {
-  //       return [
-  //         ...trend,
-  //         {
-  //           id: d.rank,
-  //           logo: d.logo ?? d.image,
-  //           name: d.name,
-  //           symbol: d.symbol,
-  //           price: d.price ?? d.current_price,
-  //           price_change: d.change ?? d.price_change_percentage_1h_in_currency,
-  //           market_cap_rank: d.rank ?? d.market_cap_rank,
-  //         },
-  //       ];
-  //     });
-  //   });
-  // }
-
-  // React.useEffect(() => {
-  //   getData();
-  // }, []);
 
   return (
     <View>
