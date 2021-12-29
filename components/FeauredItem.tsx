@@ -1,7 +1,9 @@
 import React from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { Coin } from "../functions/types";
+import { GRAY } from "../utils/colors";
 import { Bold, Regular, SemiBold } from "./Font";
+import Caret from "./icons/Caret";
 
 type Props = {
   item: Coin;
@@ -9,7 +11,7 @@ type Props = {
   index: number;
 };
 
-const IMAGE_SIZE = 36;
+const IMAGE_SIZE = 40;
 
 const FeaturedItem: React.FC<Props> = ({ item, size, index }) => {
   return (
@@ -58,14 +60,15 @@ const FeaturedItem: React.FC<Props> = ({ item, size, index }) => {
           <SemiBold
             style={{
               fontWeight: "bold",
-              fontSize: 16,
+              fontSize: 14,
               flexWrap: "wrap",
             }}
           >
-            {item.price}
+            $ {item.price}
           </SemiBold>
         </View>
         <View style={styles.changeContainer}>
+          <Caret isUp={Number(item.change) > 0} />
           <Bold
             style={{
               color: Number(item.change) > 0 ? "green" : "red",
@@ -82,8 +85,8 @@ const FeaturedItem: React.FC<Props> = ({ item, size, index }) => {
 const styles = StyleSheet.create({
   card: {
     height: 140,
-    width: 210,
-    backgroundColor: "#fff1f1",
+    width: 240,
+    backgroundColor: GRAY,
     elevation: 2,
     borderRadius: 10,
     padding: 12,

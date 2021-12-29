@@ -2,12 +2,9 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import Svg, { Path } from "react-native-svg";
+import { GRAY } from "../utils/colors";
 
-type Props = {
-  name: string;
-};
-
-const DetailsNav: React.FC<Props> = ({ name }) => {
+const DetailsNav: React.FC = () => {
   const navigation = useNavigation();
   const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -26,7 +23,6 @@ const DetailsNav: React.FC<Props> = ({ name }) => {
           />
         </Svg>
       </TouchableOpacity>
-      <Text style={styles.name}>{name}</Text>
       <TouchableOpacity
         style={styles.button}
         onPress={() => setIsBookmarked((isActive) => !isActive)}
@@ -52,12 +48,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  name: {
-    fontSize: 26,
-    fontWeight: "bold",
-  },
   button: {
-    backgroundColor: "#e2e2e2",
+    backgroundColor: GRAY,
     padding: 6,
     borderRadius: 6,
   },

@@ -3,6 +3,7 @@ import { View, StyleSheet, Image } from "react-native";
 import Caret from "./icons/Caret";
 import { Medium, Regular } from "./Font";
 import { Coin } from "../functions/types";
+import { GRAY } from "../utils/colors";
 
 interface Props {
   coin: Coin;
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 10,
-    backgroundColor: "#fff1f1",
+    backgroundColor: GRAY,
     paddingHorizontal: 10,
     borderRadius: 14,
   },

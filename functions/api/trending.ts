@@ -21,8 +21,9 @@ export default async (request: VercelRequest, response: VercelResponse) => {
     });
 
     const spans = $(row).children().find("span");
+    const isUp = spans.hasClass("icon-Caret-down");
     const prices = spans.map((index, element) => {
-      return $(element).text();
+      return !isUp ? $(element).text() : `-${$(element).text()}`;
     });
 
     coins.push({
@@ -30,7 +31,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
       logo: imgSource,
       name: values[1],
       symbol: values[2],
-      price: prices[2].substring(1),
+      price: prices[2].replace("$", ""),
       change: Number(prices[3].substring(0, prices[3].length - 1)),
     });
   });

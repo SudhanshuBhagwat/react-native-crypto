@@ -1,12 +1,12 @@
 import React from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 import { Bold, SemiBold } from "./Font";
-import { Coin } from "./List";
 import FeaturedItem from "./FeauredItem";
 import { useNavigation } from "@react-navigation/core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CoinStackParams } from "../App";
 import useData from "../hooks/useData";
+import { GREEN } from "../utils/colors";
 
 type Props = {
   url: string;
@@ -62,7 +62,7 @@ const FeaturedList: React.FC<Props> = ({
             style={{
               fontSize: 16,
               paddingHorizontal: 20,
-              color: "#06d6a0",
+              color: GREEN,
             }}
           >
             Show More
@@ -80,7 +80,17 @@ const FeaturedList: React.FC<Props> = ({
         }}
         keyExtractor={(item) => `${item.name}-${item.rank}`}
         renderItem={({ item, index }) => {
-          return <FeaturedItem item={item} size={list.length} index={index} />;
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Details", {
+                  coin: item,
+                });
+              }}
+            >
+              <FeaturedItem item={item} size={list.length} index={index} />
+            </TouchableOpacity>
+          );
         }}
       />
     </View>

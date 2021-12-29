@@ -22,11 +22,12 @@ import { StatusBar } from "expo-status-bar";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Home from "./components/icons/Home";
 import ListingsScreen from "./screens/ListingsScreen";
+import { Coin } from "./functions/types";
 
 export type CoinStackParams = {
   HomeScreen: undefined;
   Details: {
-    name: string;
+    coin: Coin;
   };
   ListingsScreen: {
     url: string;

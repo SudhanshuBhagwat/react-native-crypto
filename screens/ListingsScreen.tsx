@@ -11,6 +11,7 @@ import { CoinStackParams } from "../App";
 import { Black } from "../components/Font";
 import Svg, { Path } from "react-native-svg";
 import List from "../components/List";
+import { GRAY } from "../utils/colors";
 
 type Props = NativeStackScreenProps<CoinStackParams, "ListingsScreen">;
 
@@ -47,17 +48,17 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   heading: {
+    paddingVertical: 10,
     paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 10,
   },
   headingText: {
     fontSize: 34,
     marginLeft: 16,
   },
   button: {
-    backgroundColor: "#fff1f1",
+    backgroundColor: GRAY,
     padding: 6,
     borderRadius: 6,
   },

@@ -23,8 +23,9 @@ export default async (request: VercelRequest, response: VercelResponse) => {
       });
 
       const spans = $(element).children().find("span");
+      const isUp = spans.hasClass("icon-Caret-down");
       const prices = spans.map((index, element) => {
-        return $(element).text();
+        return !isUp ? $(element).text() : `-${$(element).text()}`;
       });
 
       coins.push({
@@ -32,7 +33,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
         logo: imgSource,
         name: values[1],
         symbol: values[2],
-        price: prices[0].substring(1),
+        price: prices[0].replace("$", ""),
         change: Number(prices[1].substring(0, prices[1].length - 1)),
       });
       result[heading] = limit ? coins.slice(0, Number(limit)) : coins;

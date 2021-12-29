@@ -5,6 +5,9 @@ export type Coin = {
   symbol: string;
   price: string;
   change: number;
+  price_change?: string;
+  high?: string;
+  low?: string;
 };
 
 export type Result = {

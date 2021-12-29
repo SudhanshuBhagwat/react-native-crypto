@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import axios from "axios";
 import { Coin } from "../functions/types";
 
 type Props = {
@@ -14,8 +14,9 @@ const useData = ({ url, dataKey, queryParams }: Props) => {
   const [list, setList] = React.useState<Coin[]>([]);
 
   async function getData() {
-    const result = await fetch(url);
-    const data = await result.json();
+    const { data } = await axios.get(url, {
+      params: queryParams,
+    });
     const resultData = dataKey ? data[dataKey] : data;
 
     resultData.forEach(async (d: any) => {
