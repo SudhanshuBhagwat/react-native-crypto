@@ -4,9 +4,16 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { GRAY } from "../utils/colors";
 
-const DetailsNav: React.FC = () => {
+type Props = {
+  isBookmarked: boolean;
+  setBookmark: Function;
+};
+
+const DetailsNav: React.FC<Props> = ({
+  isBookmarked: isMarked,
+  setBookmark,
+}) => {
   const navigation = useNavigation();
-  const [isBookmarked, setIsBookmarked] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -25,13 +32,16 @@ const DetailsNav: React.FC = () => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => setIsBookmarked((isActive) => !isActive)}
+        onPress={async () => {
+          // setIsBookmarked((isActive) => !isActive);
+          await setBookmark();
+        }}
       >
         <Svg viewBox="0 0 24 24" height="26" width="26">
           <Path
             fill="black"
             d={
-              isBookmarked
+              isMarked
                 ? "M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"
                 : "M18 2H6c-1.103 0-2 .897-2 2v18l8-4.572L20 22V4c0-1.103-.897-2-2-2zm0 16.553l-6-3.428l-6 3.428V4h12v14.553z"
             }

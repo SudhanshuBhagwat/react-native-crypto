@@ -52,7 +52,7 @@ const List: React.FC<Props> = ({ url, dataKey }) => {
           <TouchableOpacity
             onPress={() => {
               navigate.navigate("Details", {
-                name: item.name,
+                coin: item,
               });
             }}
           >

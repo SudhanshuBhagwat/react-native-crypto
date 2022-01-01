@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Platform, StatusBar, Image } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { CoinStackParams } from "../App";
-import hmacSHA256 from "crypto-js/hmac-sha256";
 import DetailsNav from "../components/DetailsNav";
 import { Black, Bold, ExtraBold, Regular, SemiBold } from "../components/Font";
 import { GRAY, GREEN, RED } from "../utils/colors";
@@ -12,21 +13,57 @@ import { Coin } from "../functions/types";
 
 type Props = NativeStackScreenProps<CoinStackParams, "Details">;
 
-const BASE_URL = "https://api.coindcx.com";
-const API_KEY = "4576e64c1a44a0b5c204a7a0806ed13459c179ab99c8ad08";
-const API_SECRET =
-  "4c604a827f7c81ddf8960bb0226d0cb915f440cc5775d045784826156c52c425";
-
 const COINGECKO_BASE = "https://api.coingecko.com/api/v3/coins/";
 const IMAGE_SIZE = 80;
+const STORAGE_KEY = "CRYPTO";
 
 const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
   const [coin, setCoin] = useState<Coin>();
   const [error, setError] = useState<string>();
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const coin_name = route.params.coin.name
     .split(" ")
     .join("-")
     .toLocaleLowerCase();
+
+  async function getStorage() {
+    const storage = await AsyncStorage.getItem(STORAGE_KEY);
+    const data = storage !== null ? JSON.parse(storage) : null;
+    if (data && data[route.params.coin.name]) {
+      setIsBookmarked(true);
+    } else {
+      setIsBookmarked(false);
+    }
+  }
+
+  async function setBookmark(name: string) {
+    const storage = await AsyncStorage.getItem(STORAGE_KEY);
+    const data = storage !== null ? JSON.parse(storage) : null;
+    if (data && data[route.params.coin.name]) {
+      delete data[route.params.coin.name];
+      try {
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        setIsBookmarked(false);
+      } catch (err) {
+        setIsBookmarked(false);
+        console.error(err);
+      }
+    } else {
+      try {
+        await AsyncStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            ...data,
+            [name]: route.params.coin,
+          })
+        );
+        setIsBookmarked(true);
+      } catch (err) {
+        setIsBookmarked(false);
+        console.error(err);
+      }
+    }
+  }
 
   React.useEffect(() => {
     async function getData() {
@@ -66,11 +103,15 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
     }
 
     getData();
+    getStorage();
   }, []);
 
   return (
     <View style={styles.container}>
-      <DetailsNav />
+      <DetailsNav
+        isBookmarked={isBookmarked}
+        setBookmark={() => setBookmark(coin?.name!)}
+      />
       <View
         style={{
           flexDirection: "row",
@@ -119,44 +160,50 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
         <View style={styles.comp}>
           <View style={styles.flex}>
             <Bold style={styles.title}>High</Bold>
-            <Regular style={styles.value}>{coin?.high}</Regular>
+            <Regular style={styles.value}>{coin?.high ?? "NAN"}</Regular>
           </View>
           <View style={styles.flex}>
             <Bold style={styles.title}>Low</Bold>
-            <Regular style={styles.value}>{coin?.low}</Regular>
+            <Regular style={styles.value}>{coin?.low ?? "NAN"}</Regular>
           </View>
         </View>
         <View style={styles.separator} />
         <View style={styles.comp}>
           <View style={styles.flex}>
             <Bold style={styles.title}>Market Cap</Bold>
-            <Regular style={styles.value}>{coin?.market_cap}</Regular>
+            <Regular style={styles.value}>{coin?.market_cap ?? "NAN"}</Regular>
           </View>
           <View style={styles.flex}>
             <Bold style={styles.title}>Market Cap Change</Bold>
-            <Regular style={styles.value}>{coin?.market_cap_change}</Regular>
+            <Regular style={styles.value}>
+              {coin?.market_cap_change ?? "NAN"}
+            </Regular>
           </View>
         </View>
         <View style={styles.separator} />
         <View style={styles.comp}>
           <View style={styles.flex}>
             <Bold style={styles.title}>Volume</Bold>
-            <Regular style={styles.value}>{coin?.volume}</Regular>
+            <Regular style={styles.value}>{coin?.volume ?? "NAN"}</Regular>
           </View>
           <View style={styles.flex}>
             <Bold style={styles.title}>Circulating Supply</Bold>
-            <Regular style={styles.value}>{coin?.circulating_supply}</Regular>
+            <Regular style={styles.value}>
+              {coin?.circulating_supply ?? "NAN"}
+            </Regular>
           </View>
         </View>
         <View style={styles.separator} />
         <View style={styles.comp}>
           <View style={styles.flex}>
             <Bold style={styles.title}>Total Supply</Bold>
-            <Regular style={styles.value}>{coin?.total_supply}</Regular>
+            <Regular style={styles.value}>
+              {coin?.total_supply ?? "NAN"}
+            </Regular>
           </View>
           <View style={styles.flex}>
             <Bold style={styles.title}>Max Supply</Bold>
-            <Regular style={styles.value}>{coin?.max_supply}</Regular>
+            <Regular style={styles.value}>{coin?.max_supply ?? "NAN"}</Regular>
           </View>
         </View>
       </View>
