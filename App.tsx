@@ -23,6 +23,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import Home from "./components/icons/Home";
 import ListingsScreen from "./screens/ListingsScreen";
 import { Coin } from "./functions/types";
+import Watch from "./components/icons/Watch";
 
 export type CoinStackParams = {
   HomeScreen: undefined;
@@ -55,6 +56,8 @@ const Container = () => {
         tabBarIcon: ({ focused }) => {
           if (route.name === "Home") {
             return <Home />;
+          } else if (route.name === "Watchlist") {
+            return <Watch />;
           }
         },
       })}
