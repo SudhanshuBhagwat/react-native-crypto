@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { Black } from "../components/Font";
 import FeaturedList from "../components/FeaturedList";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { TabNavigationParams } from "../App";
 
 const GAINERS_URL = "http://192.168.0.10:3000/api/gainers";
 const TRENDING_URL = "http://192.168.0.10:3000/api/trending";
@@ -16,7 +18,9 @@ const NEW_URL = "http://192.168.0.10:3000/api/new";
 const TOP100_URL: string =
   "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&price_change_percentage=1h";
 
-export default function HomeScreen() {
+type Props = NativeStackScreenProps<TabNavigationParams, "Home">;
+
+const HomeScreen: React.FC<Props> = () => {
   return (
     <View style={styles.container}>
       <View style={styles.heading}>
@@ -77,7 +81,7 @@ export default function HomeScreen() {
       </ScrollView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -96,3 +100,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
 });
+
+export default HomeScreen;

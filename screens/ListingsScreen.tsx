@@ -12,10 +12,18 @@ import { Black } from "../components/Font";
 import Svg, { Path } from "react-native-svg";
 import List from "../components/List";
 import { GRAY } from "../utils/colors";
+import useData from "../hooks/useData";
 
 type Props = NativeStackScreenProps<CoinStackParams, "ListingsScreen">;
 
-const ListingsScreen: React.FC<Props> = ({ route, navigation }) => {
+const ListingsScreen: React.FC<Props> = ({
+  route: {
+    params: { url, dataKey, title },
+  },
+  navigation,
+}) => {
+  const list = useData({ url, dataKey });
+
   return (
     <View style={styles.container}>
       <View style={styles.heading}>
@@ -32,10 +40,10 @@ const ListingsScreen: React.FC<Props> = ({ route, navigation }) => {
             />
           </Svg>
         </TouchableOpacity>
-        <Black style={styles.headingText}>{route.params.title}</Black>
+        <Black style={styles.headingText}>{title}</Black>
       </View>
       <View>
-        <List url={route.params.url} dataKey={route.params.dataKey} />
+        <List data={list} />
       </View>
     </View>
   );

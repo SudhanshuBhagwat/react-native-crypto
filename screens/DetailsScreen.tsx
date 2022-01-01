@@ -10,12 +10,12 @@ import { GRAY, GREEN, RED } from "../utils/colors";
 import Chart from "../components/Chart";
 import axios from "axios";
 import { Coin } from "../functions/types";
+import { STORAGE_KEY } from "../utils/constants";
 
 type Props = NativeStackScreenProps<CoinStackParams, "Details">;
 
 const COINGECKO_BASE = "https://api.coingecko.com/api/v3/coins/";
 const IMAGE_SIZE = 80;
-const STORAGE_KEY = "CRYPTO";
 
 const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
   const [coin, setCoin] = useState<Coin>();

@@ -9,20 +9,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { CoinStackParams } from "../App";
+import { Coin } from "../functions/types";
 import useData from "../hooks/useData";
 import ListItem from "./ListItem";
 
 const WIDTH = Dimensions.get("screen").width;
-
-export interface Coin {
-  id: string;
-  name: string;
-  symbol: string;
-  logo: string;
-  price: string;
-  market_cap_rank: string;
-  price_change: string;
-}
 
 interface Trending {
   id: string;
@@ -30,17 +21,15 @@ interface Trending {
 }
 
 type Props = {
-  url: string;
-  dataKey?: string;
+  data: Coin[];
 };
 
-const List: React.FC<Props> = ({ url, dataKey }) => {
+const List: React.FC<Props> = ({ data }) => {
   const navigate = useNavigation<NativeStackNavigationProp<CoinStackParams>>();
-  const list = useData({ url, dataKey });
 
   return (
     <FlatList
-      data={list}
+      data={data}
       showsVerticalScrollIndicator={false}
       keyExtractor={(item, _) => `${item.name}-${item.rank}`}
       ItemSeparatorComponent={() => <View style={styles.separator} />}

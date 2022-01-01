@@ -36,7 +36,12 @@ export type CoinStackParams = {
   };
 };
 
-const TabNavigation = createMaterialBottomTabNavigator();
+export type TabNavigationParams = {
+  Home: undefined;
+  Watchlist: undefined;
+};
+
+const TabNavigation = createMaterialBottomTabNavigator<TabNavigationParams>();
 const CoinStack = createNativeStackNavigator<CoinStackParams>();
 
 const Container = () => {
