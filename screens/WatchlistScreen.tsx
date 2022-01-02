@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Platform, StatusBar } from "react-native";
-import { Black } from "../components/Font";
+import { Black, Bold } from "../components/Font";
 import List from "../components/List";
 import { STORAGE_KEY } from "../utils/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -11,7 +11,7 @@ import { CoinStackParams, TabNavigationParams } from "../App";
 type Props = NativeStackScreenProps<TabNavigationParams, "Watchlist">;
 
 const WatchlistScreen: React.FC<Props> = ({ navigation }) => {
-  const [list, setList] = useState<Coin[]>();
+  const [list, setList] = useState<Coin[]>([]);
 
   async function getStorage() {
     const storage = await AsyncStorage.getItem(STORAGE_KEY);
@@ -34,9 +34,13 @@ const WatchlistScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.heading}>
         <Black style={styles.headingText}>Watchlist</Black>
       </View>
-      <View>
+      {list?.length > 0 ? (
         <List data={list!} />
-      </View>
+      ) : (
+        <View style={styles.error}>
+          <Bold>No items in Watchlist</Bold>
+        </View>
+      )}
     </View>
   );
 };
@@ -53,6 +57,11 @@ const styles = StyleSheet.create({
   },
   headingText: {
     fontSize: 34,
+  },
+  error: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

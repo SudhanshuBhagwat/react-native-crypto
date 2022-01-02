@@ -7,6 +7,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CoinStackParams } from "../App";
 import useData from "../hooks/useData";
 import { GREEN } from "../utils/colors";
+import { ActivityIndicator } from "react-native-paper";
 
 type Props = {
   url: string;
@@ -23,7 +24,7 @@ const FeaturedList: React.FC<Props> = ({
   title,
   queryParams,
 }) => {
-  const list = useData({
+  const [list, isLoading] = useData({
     url,
     dataKey,
     queryParams,
@@ -69,30 +70,34 @@ const FeaturedList: React.FC<Props> = ({
           </SemiBold>
         </TouchableOpacity>
       </View>
-      <FlatList
-        style={{ marginTop: 8, marginBottom: 18, marginHorizontal: 20 }}
-        horizontal
-        data={list}
-        maxToRenderPerBatch={10}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          padding: 2,
-        }}
-        keyExtractor={(item) => `${item.name}-${item.rank}`}
-        renderItem={({ item, index }) => {
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Details", {
-                  coin: item,
-                });
-              }}
-            >
-              <FeaturedItem item={item} size={list.length} index={index} />
-            </TouchableOpacity>
-          );
-        }}
-      />
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <FlatList
+          style={{ marginTop: 8, marginBottom: 18, marginHorizontal: 20 }}
+          horizontal
+          data={list}
+          maxToRenderPerBatch={10}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            padding: 2,
+          }}
+          keyExtractor={(item) => `${item.name}-${item.rank}`}
+          renderItem={({ item, index }) => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Details", {
+                    coin: item,
+                  });
+                }}
+              >
+                <FeaturedItem item={item} size={list.length} index={index} />
+              </TouchableOpacity>
+            );
+          }}
+        />
+      )}
     </View>
   );
 };

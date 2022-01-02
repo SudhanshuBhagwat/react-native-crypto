@@ -10,8 +10,9 @@ type Props = {
   };
 };
 
-const useData = ({ url, dataKey, queryParams }: Props) => {
+const useData = ({ url, dataKey, queryParams }: Props): [Coin[], boolean] => {
   const [list, setList] = React.useState<Coin[]>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   async function getData() {
     const { data } = await axios.get(url, {
@@ -39,9 +40,10 @@ const useData = ({ url, dataKey, queryParams }: Props) => {
 
   React.useEffect(() => {
     getData();
+    setIsLoading(false);
   }, []);
 
-  return list;
+  return [list, isLoading];
 };
 
 export default useData;
