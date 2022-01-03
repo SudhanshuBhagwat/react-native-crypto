@@ -13,6 +13,7 @@ import Svg, { Path } from "react-native-svg";
 import List from "../components/List";
 import { GRAY } from "../utils/colors";
 import useData from "../hooks/useData";
+import { ActivityIndicator } from "react-native-paper";
 
 type Props = NativeStackScreenProps<CoinStackParams, "ListingsScreen">;
 
@@ -42,9 +43,15 @@ const ListingsScreen: React.FC<Props> = ({
         </TouchableOpacity>
         <Black style={styles.headingText}>{title}</Black>
       </View>
-      <View>
+      {isLoading ? (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <ActivityIndicator size="large" />
+        </View>
+      ) : (
         <List data={list} swipeable={false} onSwipeOpen={() => {}} />
-      </View>
+      )}
     </View>
   );
 };
