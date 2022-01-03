@@ -49,11 +49,13 @@ const WatchlistScreen: React.FC<Props> = ({ navigation }) => {
         <Black style={styles.headingText}>Watchlist</Black>
       </View>
       {list?.length > 0 ? (
-        <List
-          data={list!}
-          swipeable
-          onSwipeOpen={async (name) => await removeWatchListItem(name)}
-        />
+        <View style={{ flex: 1 }}>
+          <List
+            data={list!}
+            swipeable
+            onSwipeOpen={async (name) => await removeWatchListItem(name)}
+          />
+        </View>
       ) : (
         <View style={styles.error}>
           <Bold>No items in Watchlist</Bold>

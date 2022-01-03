@@ -43,15 +43,17 @@ const ListingsScreen: React.FC<Props> = ({
         </TouchableOpacity>
         <Black style={styles.headingText}>{title}</Black>
       </View>
-      {isLoading ? (
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          <ActivityIndicator size="large" />
-        </View>
-      ) : (
-        <List data={list} swipeable={false} onSwipeOpen={() => {}} />
-      )}
+      <View style={{ flex: 1 }}>
+        {isLoading ? (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <ActivityIndicator size="large" />
+          </View>
+        ) : (
+          <List data={list} swipeable={false} onSwipeOpen={() => {}} />
+        )}
+      </View>
     </View>
   );
 };
