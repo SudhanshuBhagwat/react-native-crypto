@@ -18,12 +18,13 @@ import {
   Inter_800ExtraBold,
   Inter_900Black,
 } from "@expo-google-fonts/inter";
+import { Feather } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+
 import Home from "./components/icons/Home";
 import ListingsScreen from "./screens/ListingsScreen";
 import { Coin } from "./functions/types";
-import Watch from "./components/icons/Watch";
 
 export type CoinStackParams = {
   HomeScreen: undefined;
@@ -57,7 +58,7 @@ const Container = () => {
           if (route.name === "Home") {
             return <Home />;
           } else if (route.name === "Watchlist") {
-            return <Watch />;
+            return <Feather name="eye" size={24} color="black" />;
           }
         },
       })}
