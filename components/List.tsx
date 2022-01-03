@@ -10,8 +10,10 @@ import {
 } from "react-native";
 import { CoinStackParams } from "../App";
 import { Coin } from "../functions/types";
-import useData from "../hooks/useData";
+import { STORAGE_KEY } from "../utils/constants";
 import ListItem from "./ListItem";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Swipeable } from "react-native-gesture-handler";
 
 const WIDTH = Dimensions.get("screen").width;
 
@@ -22,9 +24,11 @@ interface Trending {
 
 type Props = {
   data: Coin[];
+  swipeable: boolean;
+  onSwipeOpen: (name: string) => void;
 };
 
-const List: React.FC<Props> = ({ data }) => {
+const List: React.FC<Props> = ({ data, swipeable = false, onSwipeOpen }) => {
   const navigate = useNavigation<NativeStackNavigationProp<CoinStackParams>>();
 
   return (
@@ -45,7 +49,21 @@ const List: React.FC<Props> = ({ data }) => {
               });
             }}
           >
-            <ListItem coin={item} />
+            <Swipeable
+              enabled={swipeable}
+              renderRightActions={() => (
+                <View
+                  style={{
+                    flex: 1,
+                    backgroundColor: "red",
+                    borderRadius: 14,
+                  }}
+                />
+              )}
+              onSwipeableOpen={async () => await onSwipeOpen(item.name)}
+            >
+              <ListItem coin={item} />
+            </Swipeable>
           </TouchableOpacity>
         );
       }}

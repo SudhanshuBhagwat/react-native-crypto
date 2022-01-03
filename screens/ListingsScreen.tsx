@@ -22,7 +22,7 @@ const ListingsScreen: React.FC<Props> = ({
   },
   navigation,
 }) => {
-  const list = useData({ url, dataKey });
+  const [list, isLoading] = useData({ url, dataKey });
 
   return (
     <View style={styles.container}>
@@ -43,7 +43,7 @@ const ListingsScreen: React.FC<Props> = ({
         <Black style={styles.headingText}>{title}</Black>
       </View>
       <View>
-        <List data={list} />
+        <List data={list} swipeable={false} onSwipeOpen={() => {}} />
       </View>
     </View>
   );

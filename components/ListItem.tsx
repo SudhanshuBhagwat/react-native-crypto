@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Alert } from "react-native";
 import Caret from "./icons/Caret";
 import { Medium, Regular } from "./Font";
 import { Coin } from "../functions/types";

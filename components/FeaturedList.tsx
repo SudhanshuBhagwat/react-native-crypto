@@ -1,5 +1,10 @@
 import React from "react";
-import { FlatList, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
+} from "react-native";
 import { Bold, SemiBold } from "./Font";
 import FeaturedItem from "./FeauredItem";
 import { useNavigation } from "@react-navigation/core";
@@ -7,7 +12,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CoinStackParams } from "../App";
 import useData from "../hooks/useData";
 import { GREEN } from "../utils/colors";
-import { ActivityIndicator } from "react-native-paper";
 
 type Props = {
   url: string;
@@ -71,7 +75,15 @@ const FeaturedList: React.FC<Props> = ({
         </TouchableOpacity>
       </View>
       {isLoading ? (
-        <ActivityIndicator />
+        <View
+          style={{
+            height: 140,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ActivityIndicator color="#0000ff" size="large" />
+        </View>
       ) : (
         <FlatList
           style={{ marginTop: 8, marginBottom: 18, marginHorizontal: 20 }}

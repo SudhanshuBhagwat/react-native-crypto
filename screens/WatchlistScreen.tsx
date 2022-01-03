@@ -20,6 +20,20 @@ const WatchlistScreen: React.FC<Props> = ({ navigation }) => {
     setList(storeList);
   }
 
+  async function removeWatchListItem(name: string) {
+    const storage = await AsyncStorage.getItem(STORAGE_KEY);
+    const data = storage !== null ? JSON.parse(storage) : null;
+    if (data && data[name]) {
+      delete data[name];
+      try {
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        await getStorage();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+
   useEffect(() => {
     getStorage();
     const willFocusSubscription = navigation.addListener("focus", () => {
@@ -35,7 +49,11 @@ const WatchlistScreen: React.FC<Props> = ({ navigation }) => {
         <Black style={styles.headingText}>Watchlist</Black>
       </View>
       {list?.length > 0 ? (
-        <List data={list!} />
+        <List
+          data={list!}
+          swipeable
+          onSwipeOpen={async (name) => await removeWatchListItem(name)}
+        />
       ) : (
         <View style={styles.error}>
           <Bold>No items in Watchlist</Bold>
