@@ -5,11 +5,16 @@ import {
   Platform,
   StatusBar,
   ScrollView,
+  Image,
+  Pressable,
 } from "react-native";
-import { Black } from "../components/Font";
-import FeaturedList from "../components/FeaturedList";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Feather } from "@expo/vector-icons";
+
 import { TabNavigationParams } from "../App";
+
+import { Bold } from "../components/Font";
+import FeaturedList from "../components/FeaturedList";
 
 const GAINERS_URL = "http://192.168.0.10:3000/api/gainers";
 const TRENDING_URL = "http://192.168.0.10:3000/api/trending";
@@ -20,24 +25,63 @@ const TOP100_URL: string =
 
 type Props = NativeStackScreenProps<TabNavigationParams, "Home">;
 
+const SIZE = 50;
+
 const HomeScreen: React.FC<Props> = () => {
   return (
     <View style={styles.container}>
       <View style={styles.heading}>
-        <Black style={styles.headingText}>Portfolio</Black>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Image
+            source={{ uri: "https://source.unsplash.com/random" }}
+            style={{
+              borderRadius: SIZE / 2,
+              height: SIZE,
+              width: SIZE,
+              marginRight: 10,
+            }}
+          />
+          <View>
+            <Bold
+              style={{
+                fontSize: 16,
+                color: "#9c9c9c",
+              }}
+            >
+              Hello,
+            </Bold>
+            <Bold
+              style={{
+                fontSize: 20,
+                color: "#444",
+              }}
+            >
+              Sudhanshu Bhagwat
+            </Bold>
+          </View>
+        </View>
+        <Pressable>
+          <Feather name="settings" size={30} color="black" />
+        </Pressable>
       </View>
+      {/* <Black style={styles.headingText}>Portfolio</Black> */}
       <ScrollView
         style={{
           flex: 1,
         }}
       >
-        <FeaturedList
+        {/* <FeaturedList
           url={TOP100_URL}
           title="Top 100 🔥"
           queryParams={{
             per_page: 10,
           }}
-        />
+        /> */}
         <FeaturedList
           url={TRENDING_URL}
           dataKey="data"
@@ -92,6 +136,10 @@ const styles = StyleSheet.create({
   heading: {
     paddingHorizontal: 20,
     paddingVertical: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
   },
   headingText: {
     fontSize: 34,

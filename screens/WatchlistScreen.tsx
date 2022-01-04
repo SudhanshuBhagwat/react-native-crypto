@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Platform, StatusBar } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+import { TabNavigationParams } from "../App";
+
 import { Black, Bold } from "../components/Font";
 import List from "../components/List";
-import { STORAGE_KEY } from "../utils/constants";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { Coin } from "../functions/types";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { CoinStackParams, TabNavigationParams } from "../App";
+
+import { STORAGE_KEY } from "../utils/constants";
 
 type Props = NativeStackScreenProps<TabNavigationParams, "Watchlist">;
 

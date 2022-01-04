@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { View, StyleSheet, Platform, StatusBar, Image } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 import { CoinStackParams } from "../App";
+
 import DetailsNav from "../components/DetailsNav";
-import { Black, Bold, ExtraBold, Regular, SemiBold } from "../components/Font";
-import { GRAY, GREEN, RED } from "../utils/colors";
+import { Black, Bold, ExtraBold, Regular } from "../components/Font";
 import Chart from "../components/Chart";
-import axios from "axios";
-import { Coin } from "../functions/types";
+
+import { GRAY, GREEN, RED } from "../utils/colors";
 import { STORAGE_KEY } from "../utils/constants";
+
+import { Coin } from "../functions/types";
 
 type Props = NativeStackScreenProps<CoinStackParams, "Details">;
 

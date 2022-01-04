@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { ActivityIndicator } from "react-native-paper";
+import Svg, { Path } from "react-native-svg";
+
 import { CoinStackParams } from "../App";
 import { Black } from "../components/Font";
-import Svg, { Path } from "react-native-svg";
 import List from "../components/List";
 import { GRAY } from "../utils/colors";
 import useData from "../hooks/useData";
-import { ActivityIndicator } from "react-native-paper";
 
 type Props = NativeStackScreenProps<CoinStackParams, "ListingsScreen">;
 
