@@ -1,5 +1,4 @@
 import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "./screens/HomeScreen";
 import WatchlistScreen from "./screens/WatchlistScreen";
@@ -25,8 +24,12 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import Home from "./components/icons/Home";
 import ListingsScreen from "./screens/ListingsScreen";
 import { Coin } from "./functions/types";
+import SettingsScreen from "./screens/SettingsScreen";
+import { ActivityIndicator } from "react-native-paper";
+import LoginScreen from "./screens/LoginScreen";
 
 export type CoinStackParams = {
+  LoginScreen: undefined;
   HomeScreen: undefined;
   Details: {
     coin: Coin;
@@ -36,6 +39,7 @@ export type CoinStackParams = {
     dataKey?: string;
     title: string;
   };
+  SettingsScreen: undefined;
 };
 
 export type TabNavigationParams = {
@@ -84,15 +88,21 @@ export default function App() {
 
   if (!fontsLoaded) {
     return (
-      <View>
-        <Text>Loading...</Text>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size="large" />
       </View>
     );
   }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar backgroundColor="white" />
+      <StatusBar backgroundColor="white" style="dark" />
       <NavigationContainer>
         <CoinStack.Navigator
           screenOptions={{
@@ -102,8 +112,10 @@ export default function App() {
           <CoinStack.Screen name="HomeScreen" component={Container} />
           <CoinStack.Screen name="ListingsScreen" component={ListingsScreen} />
           <CoinStack.Screen name="Details" component={DetailsScreen} />
+          <CoinStack.Screen name="SettingsScreen" component={SettingsScreen} />
         </CoinStack.Navigator>
       </NavigationContainer>
+      {/* <LoginScreen /> */}
     </SafeAreaView>
   );
 }

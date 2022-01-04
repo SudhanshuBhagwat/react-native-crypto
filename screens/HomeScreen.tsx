@@ -11,7 +11,7 @@ import {
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
 
-import { TabNavigationParams } from "../App";
+import { CoinStackParams, TabNavigationParams } from "../App";
 
 import { Bold } from "../components/Font";
 import FeaturedList from "../components/FeaturedList";
@@ -23,11 +23,11 @@ const NEW_URL = "http://192.168.0.10:3000/api/new";
 const TOP100_URL: string =
   "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&price_change_percentage=1h";
 
-type Props = NativeStackScreenProps<TabNavigationParams, "Home">;
+type Props = NativeStackScreenProps<CoinStackParams, "HomeScreen">;
 
 const SIZE = 50;
 
-const HomeScreen: React.FC<Props> = () => {
+const HomeScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.heading}>
@@ -65,7 +65,7 @@ const HomeScreen: React.FC<Props> = () => {
             </Bold>
           </View>
         </View>
-        <Pressable>
+        <Pressable onPress={() => navigation.push("SettingsScreen")}>
           <Feather name="settings" size={30} color="black" />
         </Pressable>
       </View>
