@@ -30,6 +30,7 @@ import LoginScreen from "./screens/LoginScreen";
 import { Provider, useSelector } from "react-redux";
 import { RootState, store } from "./store";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { GREEN } from "./utils/colors";
 
 export type CoinStackParams = {
   HomeScreen: undefined;
@@ -78,10 +79,11 @@ const TabNav = () => {
       }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => {
+          const color = focused ? GREEN : "black";
           if (route.name === "Home") {
-            return <Home />;
+            return <Feather name="home" size={24} color={color} />;
           } else if (route.name === "Watchlist") {
-            return <Feather name="eye" size={24} color="black" />;
+            return <Feather name="eye" size={24} color={color} />;
           }
         },
       })}
