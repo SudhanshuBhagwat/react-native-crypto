@@ -5,17 +5,23 @@ import {
   Platform,
   StatusBar,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Svg, { Path } from "react-native-svg";
+import auth from "@react-native-firebase/auth";
 
 import { CoinStackParams } from "../App";
-import { Black } from "../components/Font";
+import { Black, Bold } from "../components/Font";
 import { GRAY } from "../utils/colors";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/userSlice";
 
 type Props = NativeStackScreenProps<CoinStackParams, "SettingsScreen">;
 
 const SettingsScreen: React.FC<Props> = ({ route, navigation }) => {
+  const dispath = useDispatch();
+
   return (
     <View style={styles.container}>
       <View
@@ -41,7 +47,25 @@ const SettingsScreen: React.FC<Props> = ({ route, navigation }) => {
           <Black style={styles.headingText}>Settings</Black>
         </View>
       </View>
-      <View style={{ flex: 1 }}></View>
+      <View style={{ flex: 1 }}>
+        <Pressable
+          style={styles.signout}
+          onPress={() => {
+            auth()
+              .signOut()
+              .then(() => dispath(logout));
+          }}
+        >
+          <Bold
+            style={{
+              textAlign: "center",
+              fontSize: 20,
+            }}
+          >
+            Logout
+          </Bold>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -64,6 +88,13 @@ const styles = StyleSheet.create({
     padding: 6,
     borderRadius: 6,
     marginRight: 10,
+  },
+  signout: {
+    backgroundColor: GRAY,
+    padding: 12,
+    borderRadius: 6,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

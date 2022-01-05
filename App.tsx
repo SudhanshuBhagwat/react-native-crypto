@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "./screens/HomeScreen";
 import WatchlistScreen from "./screens/WatchlistScreen";
@@ -20,17 +20,18 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import auth from "@react-native-firebase/auth";
 
-import Home from "./components/icons/Home";
 import ListingsScreen from "./screens/ListingsScreen";
 import { Coin } from "./functions/types";
 import SettingsScreen from "./screens/SettingsScreen";
 import { ActivityIndicator } from "react-native-paper";
 import LoginScreen from "./screens/LoginScreen";
-import { Provider, useSelector } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { RootState, store } from "./store";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { GREEN } from "./utils/colors";
+import { login } from "./store/userSlice";
 
 export type CoinStackParams = {
   HomeScreen: undefined;
@@ -96,6 +97,29 @@ const TabNav = () => {
 
 const Container = () => {
   const user = useSelector((state: RootState) => state.user.user);
+  const dispath = useDispatch();
+  const [initializing, setInitializing] = useState<boolean>(true);
+
+  function onAuthStateChanged(currentUser: any) {
+    dispath(
+      login({
+        user: currentUser
+          ? {
+              displayName: currentUser.displayName,
+              email: currentUser.email,
+              photoUrl: currentUser.photoURL,
+            }
+          : null,
+      })
+    );
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, []);
+
   return (
     <NavigationContainer>
       {user ? (

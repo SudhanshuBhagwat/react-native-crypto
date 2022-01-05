@@ -16,28 +16,6 @@ type Props = NativeStackScreenProps<AuthNavigationParams, "LoginScreen">;
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const user = useSelector((state: RootState) => state.user.user);
-  const dispath = useDispatch();
-  const [initializing, setInitializing] = useState<boolean>(true);
-
-  function onAuthStateChanged(currentUser: any) {
-    dispath(
-      login({
-        user: currentUser
-          ? {
-              displayName: currentUser.displayName,
-              email: currentUser.email,
-              photoUrl: currentUser.photoURL,
-            }
-          : null,
-      })
-    );
-    if (initializing) setInitializing(false);
-  }
-
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
-  }, []);
 
   async function onGoogleButtonPress() {
     const { idToken } = await GoogleSignin.signIn();
@@ -67,18 +45,6 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         />
         <Bold>Sign In with Google</Bold>
       </Pressable>
-      {user && (
-        <Pressable
-          style={styles.button}
-          onPress={() => {
-            auth()
-              .signOut()
-              .then(() => dispath(logout));
-          }}
-        >
-          <Bold>Logout</Bold>
-        </Pressable>
-      )}
     </View>
   );
 };
