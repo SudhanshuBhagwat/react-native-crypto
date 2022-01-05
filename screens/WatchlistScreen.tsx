@@ -20,7 +20,8 @@ const WatchlistScreen: React.FC<Props> = ({ navigation }) => {
   async function getStorage() {
     const storage = await AsyncStorage.getItem(STORAGE_KEY);
     const data = storage !== null ? JSON.parse(storage) : null;
-    const storeList: Coin[] = Object.keys(data).map((key) => data[key]);
+    const storeList: Coin[] =
+      data !== null ? Object.keys(data).map((key) => data[key]) : [];
     setList(storeList);
   }
 

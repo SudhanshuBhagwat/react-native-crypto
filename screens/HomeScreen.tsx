@@ -15,6 +15,8 @@ import { CoinStackParams, TabNavigationParams } from "../App";
 
 import { Bold } from "../components/Font";
 import FeaturedList from "../components/FeaturedList";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 const GAINERS_URL = "http://192.168.0.10:3000/api/gainers";
 const TRENDING_URL = "http://192.168.0.10:3000/api/trending";
@@ -28,6 +30,8 @@ type Props = NativeStackScreenProps<CoinStackParams, "HomeScreen">;
 const SIZE = 50;
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
+  const user = useSelector((state: RootState) => state.user.user);
+
   return (
     <View style={styles.container}>
       <View style={styles.heading}>
@@ -38,7 +42,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           }}
         >
           <Image
-            source={{ uri: "https://source.unsplash.com/random" }}
+            source={{ uri: user?.photoUrl }}
             style={{
               borderRadius: SIZE / 2,
               height: SIZE,
@@ -61,7 +65,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
                 color: "#444",
               }}
             >
-              Sudhanshu Bhagwat
+              {user?.displayName}
             </Bold>
           </View>
         </View>

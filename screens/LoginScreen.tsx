@@ -26,7 +26,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           ? {
               displayName: currentUser.displayName,
               email: currentUser.email,
-              photoUrl: currentUser.photoUrl,
+              photoUrl: currentUser.photoURL,
             }
           : null,
       })
