@@ -69,7 +69,6 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           <Feather name="settings" size={30} color="black" />
         </Pressable>
       </View>
-      {/* <Black style={styles.headingText}>Portfolio</Black> */}
       <ScrollView
         style={{
           flex: 1,

@@ -27,9 +27,11 @@ import { Coin } from "./functions/types";
 import SettingsScreen from "./screens/SettingsScreen";
 import { ActivityIndicator } from "react-native-paper";
 import LoginScreen from "./screens/LoginScreen";
+import { Provider, useSelector } from "react-redux";
+import { RootState, store } from "./store";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 export type CoinStackParams = {
-  LoginScreen: undefined;
   HomeScreen: undefined;
   Details: {
     coin: Coin;
@@ -47,10 +49,27 @@ export type TabNavigationParams = {
   Watchlist: undefined;
 };
 
+export type AuthNavigationParams = {
+  LoginScreen: undefined;
+};
+
 const TabNavigation = createMaterialBottomTabNavigator<TabNavigationParams>();
 const CoinStack = createNativeStackNavigator<CoinStackParams>();
+const AuthStack = createNativeStackNavigator<AuthNavigationParams>();
 
-const Container = () => {
+const Auth = () => {
+  return (
+    <AuthStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <AuthStack.Screen name="LoginScreen" component={LoginScreen} />
+    </AuthStack.Navigator>
+  );
+};
+
+const TabNav = () => {
   return (
     <TabNavigation.Navigator
       barStyle={{
@@ -73,6 +92,32 @@ const Container = () => {
   );
 };
 
+const Container = () => {
+  const user = useSelector((state: RootState) => state.user.user);
+  return (
+    <NavigationContainer>
+      {user ? (
+        <CoinStack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <CoinStack.Screen name="HomeScreen" component={TabNav} />
+          <CoinStack.Screen name="ListingsScreen" component={ListingsScreen} />
+          <CoinStack.Screen name="Details" component={DetailsScreen} />
+          <CoinStack.Screen name="SettingsScreen" component={SettingsScreen} />
+        </CoinStack.Navigator>
+      ) : (
+        <Auth />
+      )}
+    </NavigationContainer>
+  );
+};
+
+GoogleSignin.configure({
+  webClientId:
+    "380105339462-h8iqv8a21fb5al5qbk1fn3t3dojlokuc.apps.googleusercontent.com",
+});
 export default function App() {
   let [fontsLoaded] = useFonts({
     Inter_100Thin,
@@ -101,21 +146,11 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar backgroundColor="white" style="dark" />
-      <NavigationContainer>
-        <CoinStack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <CoinStack.Screen name="HomeScreen" component={Container} />
-          <CoinStack.Screen name="ListingsScreen" component={ListingsScreen} />
-          <CoinStack.Screen name="Details" component={DetailsScreen} />
-          <CoinStack.Screen name="SettingsScreen" component={SettingsScreen} />
-        </CoinStack.Navigator>
-      </NavigationContainer>
-      {/* <LoginScreen /> */}
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar backgroundColor="white" style="dark" />
+        <Container />
+      </SafeAreaView>
+    </Provider>
   );
 }

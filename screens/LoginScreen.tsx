@@ -2,22 +2,35 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Pressable } from "react-native";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { FontAwesome } from "@expo/vector-icons";
-import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import auth from "@react-native-firebase/auth";
 
 import { Black, Bold } from "../components/Font";
 import { GRAY } from "../utils/colors";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store";
+import { login, logout } from "../store/userSlice";
+import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
+import { AuthNavigationParams } from "../App";
 
-GoogleSignin.configure({
-  webClientId:
-    "380105339462-h8iqv8a21fb5al5qbk1fn3t3dojlokuc.apps.googleusercontent.com",
-});
+type Props = NativeStackScreenProps<AuthNavigationParams, "LoginScreen">;
 
-const LoginScreen = () => {
+const LoginScreen: React.FC<Props> = ({ navigation }) => {
+  const user = useSelector((state: RootState) => state.user.user);
+  const dispath = useDispatch();
   const [initializing, setInitializing] = useState<boolean>(true);
-  const [user, setUser] = useState<FirebaseAuthTypes.User>();
 
-  function onAuthStateChanged(user: any) {
-    setUser(user);
+  function onAuthStateChanged(currentUser: any) {
+    dispath(
+      login({
+        user: currentUser
+          ? {
+              displayName: currentUser.displayName,
+              email: currentUser.email,
+              photoUrl: currentUser.photoUrl,
+            }
+          : null,
+      })
+    );
     if (initializing) setInitializing(false);
   }
 
@@ -36,7 +49,7 @@ const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <Black>Login Screen</Black>
-      {user && <Black>{user?.displayName}</Black>}
+      {user && <Black>{user.displayName}</Black>}
       <Pressable
         style={styles.button}
         onPress={() => {
@@ -60,7 +73,7 @@ const LoginScreen = () => {
           onPress={() => {
             auth()
               .signOut()
-              .then(() => "Signed Out");
+              .then(() => dispath(logout));
           }}
         >
           <Bold>Logout</Bold>
