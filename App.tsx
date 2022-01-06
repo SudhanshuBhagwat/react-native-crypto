@@ -30,7 +30,7 @@ import LoginScreen from "./screens/LoginScreen";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { RootState, store } from "./store";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { GREEN } from "./utils/colors";
+import { GRAY, GREEN } from "./utils/colors";
 import { login } from "./store/userSlice";
 
 export type CoinStackParams = {

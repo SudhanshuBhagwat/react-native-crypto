@@ -31,7 +31,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
       logo: imgSource,
       name: values[1],
       symbol: values[2],
-      price: prices[2].replace("$", ""),
+      price: prices[2],
       change: Number(prices[3].substring(0, prices[3].length - 1)),
     });
   });

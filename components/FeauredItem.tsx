@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { Coin } from "../functions/types";
-import { GRAY } from "../utils/colors";
+import { GRAY, GREEN, RED } from "../utils/colors";
 import { Black, Bold, Regular, SemiBold } from "./Font";
 import Caret from "./icons/Caret";
 
@@ -46,6 +46,7 @@ const FeaturedItem: React.FC<Props> = ({ item, size, index }) => {
           style={{
             width: IMAGE_SIZE,
             height: IMAGE_SIZE,
+            borderRadius: IMAGE_SIZE / 2,
           }}
         />
       </View>
@@ -70,14 +71,14 @@ const FeaturedItem: React.FC<Props> = ({ item, size, index }) => {
               flexWrap: "wrap",
             }}
           >
-            $ {item.price}
+            {item.price}
           </Black>
         </View>
         <View style={styles.changeContainer}>
           <Bold
             style={{
               fontSize: 14,
-              color: Number(item.change) > 0 ? "green" : "red",
+              color: Number(item.change) > 0 ? GREEN : RED,
             }}
           >
             {Number(item.change) > 0 ? "+" : ""}

@@ -5,7 +5,15 @@ import { Coin, Result } from "../types";
 
 export default async (request: VercelRequest, response: VercelResponse) => {
   const { limit } = request.query;
-  const pageData = await axios.get(`https://coinmarketcap.com/gainers-losers/`);
+  const pageData = await axios.get(
+    `https://coinmarketcap.com/gainers-losers/`,
+    {
+      withCredentials: true,
+      headers: {
+        Cookie: `currency=%7B%22id%22%3A2784%2C%22name%22%3A%22Canadian%20Dollar%22%2C%22symbol%22%3A%22cad%22%2C%22token%22%3A%22%24%22%7D`,
+      },
+    }
+  );
   const $ = load(pageData.data);
   const result: Result = {};
 
@@ -33,7 +41,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
         logo: imgSource,
         name: values[1],
         symbol: values[2],
-        price: prices[0].replace("$", ""),
+        price: prices[0],
         change: Number(prices[1].substring(0, prices[1].length - 1)),
       });
       result[heading] = limit ? coins.slice(0, Number(limit)) : coins;

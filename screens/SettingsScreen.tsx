@@ -48,6 +48,7 @@ const SettingsScreen: React.FC<Props> = ({ route, navigation }) => {
         </View>
       </View>
       <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}></View>
         <Pressable
           style={styles.signout}
           onPress={() => {
@@ -76,6 +77,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   heading: {
     paddingVertical: 10,

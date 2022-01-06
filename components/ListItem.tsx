@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
   image: {
     width: IMAGE_SIZE,
     height: IMAGE_SIZE,
+    borderRadius: IMAGE_SIZE / 2,
     marginRight: 16,
   },
   container: {
