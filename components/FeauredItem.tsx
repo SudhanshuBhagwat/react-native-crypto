@@ -34,7 +34,7 @@ const FeaturedItem: React.FC<Props> = ({ item, size, index }) => {
           <Black style={styles.symbol}>{item.symbol.toUpperCase()}</Black>
           <Regular
             style={{
-              fontSize: 14,
+              fontSize: 13,
               marginBottom: 4,
             }}
           >
@@ -58,7 +58,7 @@ const FeaturedItem: React.FC<Props> = ({ item, size, index }) => {
         >
           <Regular
             style={{
-              fontSize: 14,
+              fontSize: 13,
               marginBottom: 4,
             }}
           >
@@ -96,10 +96,6 @@ const styles = StyleSheet.create({
     backgroundColor: GRAY,
     borderRadius: 10,
     padding: 12,
-  },
-  coin: {
-    fontSize: 18,
-    flexWrap: "wrap",
   },
   symbol: {
     fontSize: 24,
