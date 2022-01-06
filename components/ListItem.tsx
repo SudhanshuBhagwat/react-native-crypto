@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Image, Alert } from "react-native";
 import Caret from "./icons/Caret";
-import { Medium, Regular } from "./Font";
+import { Bold, Medium, Regular, SemiBold } from "./Font";
 import { Coin } from "../functions/types";
 import { GRAY } from "../utils/colors";
 
@@ -23,17 +23,17 @@ const ListItem: React.FC<Props> = ({ coin }) => {
           }}
         />
         <View style={styles.coin}>
-          <Medium style={styles.name}>{coin.name}</Medium>
-          <Regular style={styles.symbol}>{coin.symbol.toUpperCase()}</Regular>
+          <Bold style={styles.symbol}>{coin.symbol.toUpperCase()}</Bold>
+          <Regular style={styles.name}>{coin.name}</Regular>
         </View>
       </View>
       <View style={styles.priceContainer}>
-        <Regular style={styles.price}>
+        <SemiBold style={styles.price}>
           ${" "}
           {Number(coin.price) > 1
             ? Number.parseFloat(coin.price).toFixed(2)
             : Number.parseFloat(coin.price).toFixed(6)}
-        </Regular>
+        </SemiBold>
         <View style={styles.changeContainer}>
           <Caret
             isUp={Number(coin.change) > 0}
@@ -57,7 +57,7 @@ const ListItem: React.FC<Props> = ({ coin }) => {
 
 const styles = StyleSheet.create({
   name: {
-    fontSize: 20,
+    fontSize: 14,
   },
   image: {
     width: IMAGE_SIZE,
@@ -82,13 +82,15 @@ const styles = StyleSheet.create({
   coin: {
     flexDirection: "column",
   },
-  symbol: {},
+  symbol: {
+    fontSize: 20,
+  },
   priceContainer: {
     flexDirection: "column",
     alignItems: "flex-end",
   },
   price: {
-    fontSize: 16,
+    fontSize: 14,
   },
   changeContainer: {
     flexDirection: "row",

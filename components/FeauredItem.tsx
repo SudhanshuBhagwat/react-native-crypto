@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { Coin } from "../functions/types";
 import { GRAY } from "../utils/colors";
-import { Bold, Regular, SemiBold } from "./Font";
+import { Black, Bold, Regular, SemiBold } from "./Font";
 import Caret from "./icons/Caret";
 
 type Props = {
@@ -24,16 +24,22 @@ const FeaturedItem: React.FC<Props> = ({ item, size, index }) => {
       ]}
     >
       <View
-        style={[
-          styles.textContainer,
-          {
-            alignItems: "flex-start",
-          },
-        ]}
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
       >
-        <View style={{ flex: 1 }}>
-          <Bold style={styles.coin}>{item.name}</Bold>
-          <Regular style={styles.symbol}>{item.symbol.toUpperCase()}</Regular>
+        <View>
+          <Black style={styles.symbol}>{item.symbol.toUpperCase()}</Black>
+          <Regular
+            style={{
+              fontSize: 14,
+              marginBottom: 4,
+            }}
+          >
+            {item.name}
+          </Regular>
         </View>
         <Image
           source={{ uri: item.logo }}
@@ -52,28 +58,29 @@ const FeaturedItem: React.FC<Props> = ({ item, size, index }) => {
         >
           <Regular
             style={{
-              fontSize: 12,
+              fontSize: 14,
+              marginBottom: 4,
             }}
           >
             USD
           </Regular>
-          <SemiBold
+          <Black
             style={{
-              fontWeight: "bold",
               fontSize: 14,
               flexWrap: "wrap",
             }}
           >
             $ {item.price}
-          </SemiBold>
+          </Black>
         </View>
         <View style={styles.changeContainer}>
-          <Caret isUp={Number(item.change) > 0} />
           <Bold
             style={{
+              fontSize: 14,
               color: Number(item.change) > 0 ? "green" : "red",
             }}
           >
+            {Number(item.change) > 0 ? "+" : ""}
             {Number.parseFloat(`${item.change}`).toFixed(2)}%
           </Bold>
         </View>
@@ -84,10 +91,9 @@ const FeaturedItem: React.FC<Props> = ({ item, size, index }) => {
 
 const styles = StyleSheet.create({
   card: {
-    height: 140,
-    width: 250,
+    height: 160,
+    width: 200,
     backgroundColor: GRAY,
-    elevation: 2,
     borderRadius: 10,
     padding: 12,
   },
@@ -96,7 +102,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   symbol: {
-    fontSize: 12,
+    fontSize: 24,
   },
   changeContainer: {
     flexDirection: "row",
