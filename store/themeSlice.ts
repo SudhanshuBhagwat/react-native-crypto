@@ -6,7 +6,7 @@ export interface ThemeState {
 }
 
 const initialState: ThemeState = {
-  mode: "DARK",
+  mode: "LIGHT",
 };
 
 export const themeSlice = createSlice({
@@ -16,14 +16,19 @@ export const themeSlice = createSlice({
     toggleTheme: (state, _) => {
       if (state.mode === "LIGHT") {
         StatusBar.setBarStyle("dark-content");
-      } else {
+        state.mode = "DARK";
+      } else if (state.mode === "DARK") {
         StatusBar.setBarStyle("light-content");
+        state.mode = "LIGHT";
       }
-      state.mode = state.mode === "LIGHT" ? "DARK" : "LIGHT";
+    },
+    setDark: (state, action: PayloadAction<{ value: boolean }>) => {
+      console.log(action);
+      state.mode = action.payload.value ? "LIGHT" : "DARK";
     },
   },
 });
 
-export const { toggleTheme } = themeSlice.actions;
+export const { toggleTheme, setDark } = themeSlice.actions;
 
 export default themeSlice.reducer;

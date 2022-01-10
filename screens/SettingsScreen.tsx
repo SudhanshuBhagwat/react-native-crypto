@@ -6,6 +6,8 @@ import {
   StatusBar,
   TouchableOpacity,
   Pressable,
+  Switch,
+  Text,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Svg, { Path } from "react-native-svg";
@@ -13,16 +15,23 @@ import auth from "@react-native-firebase/auth";
 
 import { CoinStackParams } from "../App";
 import { Black, Bold } from "../components/Font";
-import { GRAY } from "../utils/colors";
-import { useDispatch } from "react-redux";
+import { BLACK, CREAM, GRAY } from "../utils/colors";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/userSlice";
 import { useTheme } from "@react-navigation/native";
+import { RootState } from "../store";
+import { toggleTheme } from "../store/themeSlice";
 
 type Props = NativeStackScreenProps<CoinStackParams, "SettingsScreen">;
 
 const SettingsScreen: React.FC<Props> = ({ route, navigation }) => {
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const { colors } = useTheme();
+  const { mode } = useSelector((state: RootState) => state.theme);
+
+  const changeTheme = (value: boolean) => {
+    dispatch(toggleTheme(value));
+  };
 
   return (
     <View style={styles.container}>
@@ -52,13 +61,40 @@ const SettingsScreen: React.FC<Props> = ({ route, navigation }) => {
         </View>
       </View>
       <View style={{ flex: 1 }}>
-        <View style={{ flex: 1 }}></View>
+        <View style={{ flex: 1, marginTop: 10 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Bold style={[styles.settingItem, { color: colors.text }]}>
+              Toggle Theme
+            </Bold>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text style={{ fontSize: 24 }}>☀️</Text>
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                onValueChange={changeTheme}
+                value={mode === "DARK"}
+              />
+              <Text style={{ fontSize: 24 }}>🌕</Text>
+            </View>
+          </View>
+        </View>
         <Pressable
           style={styles.signout}
           onPress={() => {
             auth()
               .signOut()
-              .then(() => dispath(logout));
+              .then(() => dispatch(logout));
           }}
         >
           <Bold
@@ -100,6 +136,10 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     justifyContent: "center",
     alignItems: "center",
+  },
+  settingItem: {
+    color: CREAM,
+    fontSize: 24,
   },
 });
 

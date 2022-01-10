@@ -6,9 +6,8 @@ import auth from "@react-native-firebase/auth";
 
 import { Black, Bold } from "../components/Font";
 import { GRAY } from "../utils/colors";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { login, logout } from "../store/userSlice";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { AuthNavigationParams } from "../App";
 
