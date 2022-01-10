@@ -1,4 +1,3 @@
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type User = {
@@ -28,7 +27,6 @@ export const userSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { login, logout } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -12,6 +12,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CoinStackParams } from "../App";
 import useData from "../hooks/useData";
 import { GREEN } from "../utils/colors";
+import { useTheme } from "@react-navigation/native";
 
 type Props = {
   url: string;
@@ -33,6 +34,7 @@ const FeaturedList: React.FC<Props> = ({
     dataKey,
     queryParams,
   });
+  const { colors } = useTheme();
   const navigation =
     useNavigation<NativeStackNavigationProp<CoinStackParams>>();
 
@@ -50,6 +52,7 @@ const FeaturedList: React.FC<Props> = ({
           style={{
             fontSize: 24,
             paddingHorizontal: 20,
+            color: colors.text,
           }}
         >
           {title}

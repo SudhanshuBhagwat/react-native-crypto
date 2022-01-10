@@ -15,6 +15,7 @@ import { Black } from "../components/Font";
 import List from "../components/List";
 import { GRAY } from "../utils/colors";
 import useData from "../hooks/useData";
+import { useTheme } from "@react-navigation/native";
 
 type Props = NativeStackScreenProps<CoinStackParams, "ListingsScreen">;
 
@@ -25,6 +26,7 @@ const ListingsScreen: React.FC<Props> = ({
   navigation,
 }) => {
   const [list, isLoading] = useData({ url, dataKey });
+  const { colors } = useTheme();
 
   return (
     <View style={styles.container}>
@@ -42,7 +44,9 @@ const ListingsScreen: React.FC<Props> = ({
             />
           </Svg>
         </TouchableOpacity>
-        <Black style={styles.headingText}>{title}</Black>
+        <Black style={[styles.headingText, { color: colors.text }]}>
+          {title}
+        </Black>
       </View>
       <View style={{ flex: 1 }}>
         {isLoading ? (
@@ -63,7 +67,6 @@ const styles = StyleSheet.create({
   container: {
     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
-    backgroundColor: "white",
   },
   heading: {
     paddingVertical: 10,

@@ -11,11 +11,13 @@ import List from "../components/List";
 import { Coin } from "../functions/types";
 
 import { STORAGE_KEY } from "../utils/constants";
+import { useTheme } from "@react-navigation/native";
 
 type Props = NativeStackScreenProps<TabNavigationParams, "Watchlist">;
 
 const WatchlistScreen: React.FC<Props> = ({ navigation }) => {
   const [list, setList] = useState<Coin[]>([]);
+  const { colors } = useTheme();
 
   async function getStorage() {
     const storage = await AsyncStorage.getItem(STORAGE_KEY);
@@ -51,7 +53,9 @@ const WatchlistScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.heading}>
-        <Black style={styles.headingText}>Watchlist</Black>
+        <Black style={[styles.headingText, { color: colors.text }]}>
+          Watchlist
+        </Black>
       </View>
       {list?.length > 0 ? (
         <View style={{ flex: 1 }}>
@@ -63,7 +67,9 @@ const WatchlistScreen: React.FC<Props> = ({ navigation }) => {
         </View>
       ) : (
         <View style={styles.error}>
-          <Bold>No items in Watchlist</Bold>
+          <Bold style={{ color: colors.text, fontSize: 24 }}>
+            No items in Watchlist
+          </Bold>
         </View>
       )}
     </View>
@@ -74,7 +80,6 @@ const styles = StyleSheet.create({
   container: {
     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
-    backgroundColor: "white",
   },
   heading: {
     paddingHorizontal: 20,

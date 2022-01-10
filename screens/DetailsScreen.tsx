@@ -14,6 +14,7 @@ import { GRAY, GREEN, RED } from "../utils/colors";
 import { STORAGE_KEY } from "../utils/constants";
 
 import { Coin } from "../functions/types";
+import { useTheme } from "@react-navigation/native";
 
 type Props = NativeStackScreenProps<CoinStackParams, "Details">;
 
@@ -28,6 +29,10 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
     .split(" ")
     .join("-")
     .toLocaleLowerCase();
+  const { colors } = useTheme();
+  const textColor = {
+    color: colors.text,
+  };
 
   async function getStorage() {
     const storage = await AsyncStorage.getItem(STORAGE_KEY);
@@ -130,15 +135,19 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
               alignItems: "center",
             }}
           >
-            <Black style={styles.heading}>{route.params.coin.name}</Black>
+            <Black style={[styles.heading, textColor]}>
+              {route.params.coin.name}
+            </Black>
             <Black style={styles.rank}>#{route.params.coin.rank}</Black>
           </View>
-          <ExtraBold style={{ fontSize: 30 }}>$ {coin?.price}</ExtraBold>
+          <ExtraBold style={{ fontSize: 30, ...textColor }}>
+            $ {coin?.price}
+          </ExtraBold>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Regular style={{ color: Number(coin?.change) > 0 ? GREEN : RED }}>
               {coin?.price_change} ({coin?.change}%)
             </Regular>
-            <Regular>Today</Regular>
+            <Regular style={textColor}> Today</Regular>
           </View>
         </View>
         <Image
@@ -161,55 +170,50 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
       </View>
       <View style={styles.detailsContainer}>
         <View style={styles.comp}>
-          <View style={styles.flex}>
-            <Bold style={styles.title}>High</Bold>
-            <Regular style={styles.value}>{coin?.high ?? "NAN"}</Regular>
-          </View>
-          <View style={styles.flex}>
-            <Bold style={styles.title}>Low</Bold>
-            <Regular style={styles.value}>{coin?.low ?? "NAN"}</Regular>
-          </View>
+          <TableItem title="High" value={coin?.high ?? "NAN"} />
+          <TableItem title="Low" value={coin?.low ?? "NAN"} />
         </View>
         <View style={styles.separator} />
         <View style={styles.comp}>
-          <View style={styles.flex}>
-            <Bold style={styles.title}>Market Cap</Bold>
-            <Regular style={styles.value}>{coin?.market_cap ?? "NAN"}</Regular>
-          </View>
-          <View style={styles.flex}>
-            <Bold style={styles.title}>Market Cap Change</Bold>
-            <Regular style={styles.value}>
-              {coin?.market_cap_change ?? "NAN"}
-            </Regular>
-          </View>
+          <TableItem title="Market Cap" value={coin?.market_cap ?? "NAN"} />
+          <TableItem
+            title="Market Cap Change"
+            value={coin?.market_cap_change ?? "NAN"}
+          />
         </View>
         <View style={styles.separator} />
         <View style={styles.comp}>
-          <View style={styles.flex}>
-            <Bold style={styles.title}>Volume</Bold>
-            <Regular style={styles.value}>{coin?.volume ?? "NAN"}</Regular>
-          </View>
-          <View style={styles.flex}>
-            <Bold style={styles.title}>Circulating Supply</Bold>
-            <Regular style={styles.value}>
-              {coin?.circulating_supply ?? "NAN"}
-            </Regular>
-          </View>
+          <TableItem title="Volume" value={coin?.volume ?? "NAN"} />
+          <TableItem
+            title="Circulating Supply"
+            value={coin?.circulating_supply ?? "NAN"}
+          />
         </View>
         <View style={styles.separator} />
         <View style={styles.comp}>
-          <View style={styles.flex}>
-            <Bold style={styles.title}>Total Supply</Bold>
-            <Regular style={styles.value}>
-              {coin?.total_supply ?? "NAN"}
-            </Regular>
-          </View>
-          <View style={styles.flex}>
-            <Bold style={styles.title}>Max Supply</Bold>
-            <Regular style={styles.value}>{coin?.max_supply ?? "NAN"}</Regular>
-          </View>
+          <TableItem title="Total Supply" value={coin?.total_supply ?? "NAN"} />
+          <TableItem title="Max Supply" value={coin?.max_supply ?? "NAN"} />
         </View>
       </View>
+    </View>
+  );
+};
+
+type TableItemProp = {
+  title: string;
+  value: string;
+};
+
+const TableItem: React.FC<TableItemProp> = ({ title, value }) => {
+  const { colors } = useTheme();
+  const textColor = {
+    color: colors.text,
+  };
+
+  return (
+    <View style={styles.flex}>
+      <Bold style={[styles.title, textColor]}>{title}</Bold>
+      <Regular style={[styles.value, textColor]}>{value}</Regular>
     </View>
   );
 };
@@ -219,7 +223,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     paddingTop: 20,
-    backgroundColor: "white",
     paddingHorizontal: 20,
   },
   heading: {
@@ -235,7 +238,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     borderWidth: 1,
     borderRadius: 20,
-    borderColor: GRAY,
+    borderColor: "#aaaaaa",
     paddingVertical: 14,
   },
   comp: {
@@ -252,9 +255,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   separator: {
-    height: 2,
+    height: 1,
     marginVertical: 10,
-    backgroundColor: GRAY,
+    backgroundColor: "#aaaaaa",
     borderRadius: 10,
   },
 });

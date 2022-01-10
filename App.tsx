@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useTheme } from "@react-navigation/native";
 import HomeScreen from "./screens/HomeScreen";
 import WatchlistScreen from "./screens/WatchlistScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -30,7 +30,7 @@ import LoginScreen from "./screens/LoginScreen";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { RootState, store } from "./store";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { GRAY, GREEN } from "./utils/colors";
+import { BLACK, BLUE, CREAM, GRAY, GREEN, WHITE } from "./utils/colors";
 import { login } from "./store/userSlice";
 
 export type CoinStackParams = {
@@ -72,15 +72,16 @@ const Auth = () => {
 };
 
 const TabNav = () => {
+  const { dark } = useTheme();
   return (
     <TabNavigation.Navigator
       barStyle={{
-        backgroundColor: "white",
+        backgroundColor: dark ? "#14213d" : WHITE,
         elevation: 0,
       }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => {
-          const color = focused ? GREEN : "black";
+          const color = focused ? GREEN : "#646464";
           if (route.name === "Home") {
             return <Feather name="home" size={24} color={color} />;
           } else if (route.name === "Watchlist") {
@@ -88,6 +89,7 @@ const TabNav = () => {
           }
         },
       })}
+      activeColor={GREEN}
     >
       <TabNavigation.Screen name="Home" component={HomeScreen} />
       <TabNavigation.Screen name="Watchlist" component={WatchlistScreen} />
@@ -96,9 +98,10 @@ const TabNav = () => {
 };
 
 const Container = () => {
-  const user = useSelector((state: RootState) => state.user.user);
-  const dispath = useDispatch();
   const [initializing, setInitializing] = useState<boolean>(true);
+  const dispath = useDispatch();
+  const user = useSelector((state: RootState) => state.user.user);
+  const themeMode = useSelector((state: RootState) => state.theme.mode);
 
   function onAuthStateChanged(currentUser: any) {
     dispath(
@@ -121,22 +124,43 @@ const Container = () => {
   }, []);
 
   return (
-    <NavigationContainer>
-      {user ? (
-        <CoinStack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <CoinStack.Screen name="HomeScreen" component={TabNav} />
-          <CoinStack.Screen name="ListingsScreen" component={ListingsScreen} />
-          <CoinStack.Screen name="Details" component={DetailsScreen} />
-          <CoinStack.Screen name="SettingsScreen" component={SettingsScreen} />
-        </CoinStack.Navigator>
-      ) : (
-        <Auth />
-      )}
-    </NavigationContainer>
+    <>
+      <StatusBar style={themeMode === "DARK" ? "light" : "dark"} />
+      <NavigationContainer
+        theme={{
+          dark: themeMode === "DARK",
+          colors: {
+            background: themeMode === "DARK" ? BLUE : WHITE,
+            border: "",
+            card: "",
+            notification: "",
+            primary: "",
+            text: themeMode === "DARK" ? WHITE : BLACK,
+          },
+        }}
+      >
+        {user ? (
+          <CoinStack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <CoinStack.Screen name="HomeScreen" component={TabNav} />
+            <CoinStack.Screen
+              name="ListingsScreen"
+              component={ListingsScreen}
+            />
+            <CoinStack.Screen name="Details" component={DetailsScreen} />
+            <CoinStack.Screen
+              name="SettingsScreen"
+              component={SettingsScreen}
+            />
+          </CoinStack.Navigator>
+        ) : (
+          <Auth />
+        )}
+      </NavigationContainer>
+    </>
   );
 };
 
@@ -174,7 +198,6 @@ export default function App() {
   return (
     <Provider store={store}>
       <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar backgroundColor="white" style="dark" />
         <Container />
       </SafeAreaView>
     </Provider>

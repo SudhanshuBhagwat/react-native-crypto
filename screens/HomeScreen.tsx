@@ -17,6 +17,8 @@ import { Bold } from "../components/Font";
 import FeaturedList from "../components/FeaturedList";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import { BLUE, WHITE } from "../utils/colors";
+import { useTheme } from "@react-navigation/native";
 
 const GAINERS_URL = "http://192.168.0.10:3000/api/gainers";
 const TRENDING_URL = "http://192.168.0.10:3000/api/trending";
@@ -31,6 +33,7 @@ const SIZE = 50;
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const user = useSelector((state: RootState) => state.user.user);
+  const { colors, dark } = useTheme();
 
   return (
     <View style={styles.container}>
@@ -62,7 +65,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             <Bold
               style={{
                 fontSize: 20,
-                color: "#444",
+                color: dark ? "#f8edeb" : "#fec5bb",
               }}
             >
               {user?.displayName}
@@ -70,7 +73,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           </View>
         </View>
         <Pressable onPress={() => navigation.push("SettingsScreen")}>
-          <Feather name="settings" size={30} color="black" />
+          <Feather name="settings" size={30} color={colors.text} />
         </Pressable>
       </View>
       <ScrollView
@@ -134,7 +137,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    backgroundColor: "white",
   },
   heading: {
     paddingHorizontal: 20,

@@ -16,11 +16,13 @@ import { Black, Bold } from "../components/Font";
 import { GRAY } from "../utils/colors";
 import { useDispatch } from "react-redux";
 import { logout } from "../store/userSlice";
+import { useTheme } from "@react-navigation/native";
 
 type Props = NativeStackScreenProps<CoinStackParams, "SettingsScreen">;
 
 const SettingsScreen: React.FC<Props> = ({ route, navigation }) => {
   const dispath = useDispatch();
+  const { colors } = useTheme();
 
   return (
     <View style={styles.container}>
@@ -44,7 +46,9 @@ const SettingsScreen: React.FC<Props> = ({ route, navigation }) => {
           </Svg>
         </TouchableOpacity>
         <View style={styles.heading}>
-          <Black style={styles.headingText}>Settings</Black>
+          <Black style={[styles.headingText, { color: colors.text }]}>
+            Settings
+          </Black>
         </View>
       </View>
       <View style={{ flex: 1 }}>
@@ -75,7 +79,6 @@ const styles = StyleSheet.create({
   container: {
     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
-    backgroundColor: "white",
     paddingHorizontal: 20,
     paddingBottom: 20,
   },
