@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -21,6 +21,8 @@ import { logout } from "../store/userSlice";
 import { useTheme } from "@react-navigation/native";
 import { RootState } from "../store";
 import { toggleTheme } from "../store/themeSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { DARK_MODE } from "../utils/constants";
 
 type Props = NativeStackScreenProps<CoinStackParams, "SettingsScreen">;
 
@@ -29,8 +31,9 @@ const SettingsScreen: React.FC<Props> = ({ route, navigation }) => {
   const { colors } = useTheme();
   const { mode } = useSelector((state: RootState) => state.theme);
 
-  const changeTheme = (value: boolean) => {
+  const changeTheme = async (value: boolean) => {
     dispatch(toggleTheme(value));
+    await AsyncStorage.setItem(DARK_MODE, `${value}`);
   };
 
   return (
@@ -94,7 +97,10 @@ const SettingsScreen: React.FC<Props> = ({ route, navigation }) => {
           onPress={() => {
             auth()
               .signOut()
-              .then(() => dispatch(logout));
+              .then(() => {
+                dispatch(logout);
+                dispatch(toggleTheme(false));
+              });
           }}
         >
           <Bold

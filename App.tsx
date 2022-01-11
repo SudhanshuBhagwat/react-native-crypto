@@ -32,6 +32,9 @@ import { RootState, store } from "./store";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { BLACK, BLUE, CREAM, GRAY, GREEN, WHITE } from "./utils/colors";
 import { login } from "./store/userSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { DARK_MODE } from "./utils/constants";
+import { toggleTheme } from "./store/themeSlice";
 
 export type CoinStackParams = {
   HomeScreen: undefined;
@@ -102,6 +105,15 @@ const Container = () => {
   const dispath = useDispatch();
   const user = useSelector((state: RootState) => state.user.user);
   const themeMode = useSelector((state: RootState) => state.theme.mode);
+
+  useEffect(() => {
+    async function getDarkMode() {
+      const isDark = await AsyncStorage.getItem(DARK_MODE);
+      dispath(toggleTheme(Boolean(isDark)));
+    }
+
+    getDarkMode();
+  }, []);
 
   function onAuthStateChanged(currentUser: any) {
     dispath(
